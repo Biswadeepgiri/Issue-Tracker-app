@@ -1,9 +1,15 @@
+'use client';
+
 import React from 'react'
 import Link from 'next/link'
 import { AiOutlineIssuesClose } from "react-icons/ai";
-import { Herr_Von_Muellerhoff } from 'next/font/google';
+import { usePathname } from 'next/navigation';
+// import { Herr_Von_Muellerhoff } from 'next/font/google';
 
 const NavBar = () => {
+    const currentPath = usePathname();
+    // console.log(currentPath);
+
     const links = [
         {label:'Dashboard',href:'/'},
         {label:'Issues',href:'/issues'}
@@ -18,7 +24,7 @@ const NavBar = () => {
             {links.map(link => 
             <Link 
             key={link.href} 
-            className='text-zinc-500 hover:text-zinc-800 transition-colors' 
+            className={`${currentPath===link.href ?  'text-zinc-900' :'text-zinc-500'} hover:text-zinc-900 transition-colors`}
             href={link.href}>
                 {link.label}
             </Link>
