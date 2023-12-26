@@ -1,6 +1,7 @@
 'use client';
 
 import { TextField } from '@radix-ui/themes'
+import { Text } from '@radix-ui/themes';
 import { TextArea } from '@radix-ui/themes';
 import { Button } from '@radix-ui/themes';
 import {useForm} from 'react-hook-form';
@@ -13,17 +14,25 @@ import { Issue } from '@prisma/client';
 import { useRouter } from 'next/navigation';
 import { Callout } from '@radix-ui/themes';
 import { MdErrorOutline } from "react-icons/md";
+import { zodResolver } from '@hookform/resolvers/zod';
+import { createIssueSchema } from '@/app/validationSchemas';
+import { z } from 'zod';
 
-interface IssueForm {
-  title: String,
-  description: String
-}
+// interface IssueForm {
+//   title: String,
+//   description: String
+// }
 
+type IssueForm = z.infer<typeof createIssueSchema>;
 const NewIssuePage = () => {
 
   const router = useRouter();
 
-  const {register,control,handleSubmit} = useForm<IssueForm>();
+  const {register,control,handleSubmit, formState : { errors }} = useForm<IssueForm>(
+    {
+      resolver: zodResolver(createIssueSchema)
+    }
+  );
   const [err,setErr] = useState('');
   
   return (
@@ -55,11 +64,13 @@ const NewIssuePage = () => {
         <TextField.Root>
             <TextField.Input placeholder='Tilte' {...register('title')} />
         </TextField.Root>
+        {errors.title && <Text color="red" as="p">{errors.title.message}</Text>}
         <Controller
          name="description"
          control={control}
          render={({ field }) => <SimpleMDE placeholder='Description' {...field}  />}
          />
+         {errors.description && <Text color="red" as="p">{errors.description.message}</Text>}
         
         <Button>Submit New Issue</Button>
         
