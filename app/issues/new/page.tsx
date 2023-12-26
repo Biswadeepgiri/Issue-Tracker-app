@@ -16,6 +16,7 @@ import { Callout } from '@radix-ui/themes';
 import { MdErrorOutline } from "react-icons/md";
 import { zodResolver } from '@hookform/resolvers/zod';
 import { createIssueSchema } from '@/app/validationSchemas';
+import Spinner from '@/app/components/Spinner';
 import { z } from 'zod';
 import ErrorMessage from '@/app/components/ErrorMessage';
 
@@ -35,6 +36,7 @@ const NewIssuePage = () => {
     }
   );
   const [err,setErr] = useState('');
+  const [isSubmitted,setSubmitted] = useState(false);
   
   return (
     <div className='max-w-xl'>
@@ -54,10 +56,12 @@ const NewIssuePage = () => {
     <form className=' space-y-3'
       onSubmit={handleSubmit(async (data) => {
         try{
+          setSubmitted(true);
         await axios.post('/api/issues',data);
         router.push('/issues')
         }
         catch(error){
+          setSubmitted(false);
           setErr('An unexpected error occured');
 
         }
@@ -81,7 +85,11 @@ const NewIssuePage = () => {
           </ErrorMessage>
           }
         
-        <Button>Submit New Issue</Button>
+        <Button disabled={isSubmitted}>Submit New Issue
+          {
+          isSubmitted && <Spinner />
+          }
+</Button>
         
     </form>
     </div>
