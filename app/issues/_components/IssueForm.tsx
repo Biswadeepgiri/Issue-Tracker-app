@@ -15,7 +15,7 @@ import { useRouter } from 'next/navigation';
 import { Callout } from '@radix-ui/themes';
 import { MdErrorOutline } from "react-icons/md";
 import { zodResolver } from '@hookform/resolvers/zod';
-import { createIssueSchema } from '@/app/validationSchemas';
+import { IssueSchema } from '@/app/validationSchemas';
 import Spinner from '@/app/components/Spinner';
 import { z } from 'zod';
 import ErrorMessage from '@/app/components/ErrorMessage';
@@ -26,7 +26,7 @@ import ErrorMessage from '@/app/components/ErrorMessage';
 //   description: String
 // }
 
-type IssueFormData = z.infer<typeof createIssueSchema>;
+type IssueFormData = z.infer<typeof IssueSchema>;
 
 const IssueForm = ({ issue }:{issue?:Issue}) => {
 
@@ -34,7 +34,7 @@ const IssueForm = ({ issue }:{issue?:Issue}) => {
 
   const {register,control,handleSubmit, formState : { errors }} = useForm<IssueForm>(
     {
-      resolver: zodResolver(createIssueSchema)
+      resolver: zodResolver(IssueSchema)
     }
   );
   const [err,setErr] = useState('');
@@ -43,6 +43,12 @@ const IssueForm = ({ issue }:{issue?:Issue}) => {
   const onSubmit = handleSubmit(async (data) => {
     try{
       setSubmitted(true);
+      if(issue){
+        await axios.patch('/api/issues/'+issue.id,data)
+      }
+      else{
+        await axios.post('/api/issues',data)
+      }
     await axios.post('/api/issues',data);
     router.push('/issues')
     }
@@ -90,7 +96,8 @@ const IssueForm = ({ issue }:{issue?:Issue}) => {
           </ErrorMessage>
           }
         
-        <Button disabled={isSubmitted}>Submit New Issue
+        <Button disabled={isSubmitted}> 
+        { issue ? 'Update Issue' : 'Submit New Issue'}{' '}
           {
           isSubmitted && <Spinner />
           }
