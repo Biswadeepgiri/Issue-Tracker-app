@@ -2,7 +2,7 @@ import Image from 'next/image'
 import LatestIssues from './LatestIssues';
 import IssueSummary from './IssueSummary';
 import prisma from '@/prisma/client';
-import { Flex } from '@radix-ui/themes';
+import { Flex, Grid } from '@radix-ui/themes';
 import IssueChart from './IssueChart';
 
 export default async function Home() {
@@ -14,10 +14,15 @@ export default async function Home() {
     
   // <LatestIssues />
   <>
-  <Flex direction="column" gap="4">
-  <IssueChart open={openissues} inprogress={inprogressissues} closed={closedissues} />
-  <LatestIssues />
-  </Flex>
+  <Grid columns={{initial:"1", md:"2"}} gap="9">
+    <Flex direction="column" gap="5">
+      <IssueSummary open={openissues} inprogress={inprogressissues} closed={closedissues} />
+      <IssueChart open={openissues} inprogress={inprogressissues} closed={closedissues} />
+
+    </Flex>
+    <LatestIssues />
+
+  </Grid>
   </>
   );
 }
