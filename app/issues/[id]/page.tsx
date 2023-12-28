@@ -6,6 +6,7 @@ import IssueStatusBadge from '@/app/components/IssueStatusBadge';
 import ReactMarkdown from 'react-markdown';
 import {Pencil2Icon} from '@radix-ui/react-icons';
 import DeleteIssueButton from './DeleteIssueButton';
+import AsigneeSelect from './AsigneeSelect';
 
 interface Props {
     params : {id:string}
@@ -38,6 +39,7 @@ const IssueDetailPage = async ({params}:Props) => {
         </Box>
         <Box>
             <Flex direction="column" gap="4">
+                <AsigneeSelect />
             <Button>
                 <Pencil2Icon/>
                 <Link href={`/issues/${issue.id}/edit`}>Edit Issue</Link>
