@@ -51,30 +51,30 @@ export  async function DELETE(
 
     }
 
-const assigndev = async function PATCH(
-        request: NextRequest , {params}:{params:{id:string}}){
-            const body = await request.json();
-            const validation  = IssueSchema.safeParse(body);
-            if(!validation.success){
-                return NextResponse.json(validation.error.format(),{status:400});
-            }
+// const assigndev = async function PATCH(
+//         request: NextRequest , {params}:{params:{id:string}}){
+//             const body = await request.json();
+//             const validation  = IssueSchema.safeParse(body);
+//             if(!validation.success){
+//                 return NextResponse.json(validation.error.format(),{status:400});
+//             }
     
-            const issue  = await prisma.issue.findUnique({
-                where:{id:parseInt(params.id)}
-            })
+//             const issue  = await prisma.issue.findUnique({
+//                 where:{id:parseInt(params.id)}
+//             })
     
-            if(!issue){
-                return NextResponse.json({error:'Invalid issue'},{status:400})
-            }
+//             if(!issue){
+//                 return NextResponse.json({error:'Invalid issue'},{status:400})
+//             }
     
-           const updatedIssue = await  prisma.issue.update({
-                where: {id:issue.id},
-                data:{
-                    assignedToUserId:body.assigneduser,
-                }
-            })
+//            const updatedIssue = await  prisma.issue.update({
+//                 where: {id:issue.id},
+//                 data:{
+//                     assignedToUserId:body.assigneduser,
+//                 }
+//             })
     
-            return NextResponse.json(updatedIssue);
-        }
+//             return NextResponse.json(updatedIssue);
+//         }
 
-export default assigndev
+// export default assigndev
