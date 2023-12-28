@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 :root {
-  --foreground-rgb: 0, 0, 0;
+  --foreground-rgb: #464747;
   font-size: large;
   font-weight: 400;
   
@@ -11,11 +11,10 @@
 
 
 body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  color: #464747;
+  background-color: #464747;
+}
+
+.radix-themes {
+  --color-background: rgb(203, 157, 157);
 }

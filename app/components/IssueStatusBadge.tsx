@@ -12,7 +12,7 @@ import { Badge } from '@radix-ui/themes'
 const IssueStatusBadge = ({status}:{status:Status}) => {
     if(status==='OPEN'){
         return (
-            <Badge color='red'>Open</Badge>
+            <Badge color='red' >Open</Badge>
         )
     }
     if(status==='IN_PROGRESS'){
